@@ -1,0 +1,76 @@
+package com.example.demo.Infraestructure.Models;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "stocks")
+public class Stock {
+    
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "product_id", nullable = false, unique = true)
+    private Product product;
+
+    private Integer maxQuantity;
+    private Integer minQuantity;
+
+    protected Stock() {
+    }
+
+
+    public Stock(Product product, Integer maxQuantity, Integer minQuantity) {
+        this.product = product;
+        this.maxQuantity = maxQuantity;
+        this.minQuantity = minQuantity;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+
+    public Integer getMaxQuantity() {
+        return maxQuantity;
+    }
+
+
+    public void setMaxQuantity(Integer maxQuantity) {
+        this.maxQuantity = maxQuantity;
+    }
+
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
+    }
+
+    
+}
