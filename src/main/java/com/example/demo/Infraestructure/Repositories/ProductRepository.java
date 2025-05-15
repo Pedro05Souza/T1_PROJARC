@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Application.Dtos.CreateProductDto;
 import com.example.demo.Domain.Entities.ProductEntity;
 import com.example.demo.Infraestructure.Models.Product;
 import com.example.demo.Infraestructure.Models.ProductRepositoryInterface;
@@ -22,8 +21,8 @@ public class ProductRepository {
         this.productEntityMapper = productEntityMapper;
     }
 
-    public PersistedResult<Product, ProductEntity> createProduct(CreateProductDto createProductDto) {
-        Product product = new Product(createProductDto.getDescription(), createProductDto.getPrice(), createProductDto.getSku());
+    public PersistedResult<Product, ProductEntity> createProduct(ProductEntity productEntity) {
+        Product product = productEntityMapper.toModel(productEntity);
         product = this.productRepositoryInterface.save(product);
         return new PersistedResult<>(product, productEntityMapper.toEntity(product));
     }

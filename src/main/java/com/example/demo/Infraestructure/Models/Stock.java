@@ -21,12 +21,13 @@ public class Stock {
 
     private Integer maxQuantity;
     private Integer minQuantity;
+    private Integer currentQuantity;
 
     protected Stock() {
     }
 
 
-    public Stock(Product product, Integer maxQuantity, Integer minQuantity) {
+    public Stock(Product product, Integer maxQuantity, Integer minQuantity, Integer currentQuantity) {
         this.product = product;
         this.maxQuantity = maxQuantity;
         this.minQuantity = minQuantity;
@@ -70,6 +71,10 @@ public class Stock {
 
     public void setMinQuantity(Integer minQuantity) {
         this.minQuantity = minQuantity;
+    }
+
+    public Integer getCurrentQuantity() {
+        return currentQuantity;
     }
 
     

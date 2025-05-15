@@ -25,7 +25,11 @@ public class CreateProductUsecase {
     }
 
     public ProductDto createProduct(CreateProductDto createProductDto) {
-        PersistedResult<Product, ProductEntity> result = this.productRepository.createProduct(createProductDto);
+        ProductEntity productEntity = new ProductEntity(createProductDto.getDescription(), createProductDto.getPrice(),
+                createProductDto.getSku());
+        PersistedResult<Product, ProductEntity> result = this.productRepository.createProduct(
+                productEntity);
+
         ProductEntity newProductEntity = result.getEntity();
         Product rawProduct = result.getModel();
 
