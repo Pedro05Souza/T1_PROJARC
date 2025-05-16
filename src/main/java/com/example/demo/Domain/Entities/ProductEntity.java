@@ -17,6 +17,14 @@ public class ProductEntity {
         this.SKU = SKU;
     }
 
+    public ProductEntity(String description, Double price, String SKU, Instant createdAt, Boolean isActive){
+        this.description = description;
+        this.price = price;
+        this.SKU = SKU;
+        this.createdAt = createdAt;
+        this.isActive = isActive;
+    }
+
     public ProductEntity(UUID id, String description, Double price, String SKU, Instant createdAt, Boolean isActive) {
         this.id = id;
         this.description = description;
