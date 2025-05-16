@@ -11,6 +11,8 @@ import com.example.demo.Infraestructure.Repositories.PersistedResult;
 import com.example.demo.Infraestructure.Repositories.ProductRepository;
 import com.example.demo.Infraestructure.Repositories.StockRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CreateProductUsecase {
     private final ProductRepository productRepository;
@@ -24,9 +26,10 @@ public class CreateProductUsecase {
         this.stocksRepository = stocksRepository;
     }
 
+    @Transactional
     public ProductDto createProduct(CreateProductDto createProductDto) {
         ProductEntity productEntity = new ProductEntity(createProductDto.getDescription(), createProductDto.getPrice(),
-                createProductDto.getSku());
+                createProductDto.getSku(), java.time.Instant.now(), true);
         PersistedResult<Product, ProductEntity> result = this.productRepository.createProduct(
                 productEntity);
 
