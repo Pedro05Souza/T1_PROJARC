@@ -1,6 +1,7 @@
 package com.example.demo.Infraestructure.Repositories;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,7 @@ public class ProductRepository {
         .collect(Collectors.toList());
 }
 
-    public ProductEntity listProductById(Long id){
+    public ProductEntity listProductById(UUID id){
         Product product = this.productRepositoryInterface.getReferenceById(id);
         return productEntityMapper.toEntity(product);
     }

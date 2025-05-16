@@ -1,6 +1,7 @@
 package com.example.demo.Infraestructure.Repositories;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
@@ -29,12 +30,16 @@ public class StockRepository {
                 .toList();
     }
 
-    public List<ProductStock> getAllProductsStockByIds(List<Long> ids) {
-        List<Stock> stocks = this.stockRepositoryInterface.findAllById(ids);
-        return stocks.stream()
-                .map(stock -> new ProductStock(stock.getProduct().getId().toString(), stock.getCurrentQuantity(),
-                        stock.getMinQuantity(), stock.getMaxQuantity()))
-                .toList();
-    }
+    public List<ProductStock> getAllProductsStockByIds(List<UUID> productIds) {
+    List<Stock> stocks = stockRepositoryInterface.findByProductIdIn(productIds);
+    
+    return stocks.stream()
+        .map(stock -> new ProductStock(
+            stock.getProduct().getId().toString(),
+            stock.getCurrentQuantity(),
+            stock.getMinQuantity(),
+            stock.getMaxQuantity()))
+        .toList();
+}
 
 }

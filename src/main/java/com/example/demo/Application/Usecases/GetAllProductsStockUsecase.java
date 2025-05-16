@@ -1,6 +1,7 @@
 package com.example.demo.Application.Usecases;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class GetAllProductsStockUsecase {
                 .collect(Collectors.toList());
     }
 
-    public List<GetProductStocksResponseDto> getAllProductsStocks(List<Long> ids) {
+    public List<GetProductStocksResponseDto> getAllProductsStocks(List<UUID> ids) {
         if (ids != null && !ids.isEmpty()) {
             List<ProductStock> products = this.stockRepository.getAllProductsStockByIds(ids);
             return mapProductStockToDto(products);

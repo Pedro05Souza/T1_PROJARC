@@ -1,5 +1,7 @@
 package com.example.demo.Infraestructure.Models;
 
+import java.util.UUID;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,7 +15,7 @@ public class Stock {
     
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false, unique = true)
@@ -34,12 +36,12 @@ public class Stock {
     }
 
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
