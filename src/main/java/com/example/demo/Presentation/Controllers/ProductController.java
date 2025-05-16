@@ -1,6 +1,7 @@
 package com.example.demo.Presentation.Controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +46,9 @@ public class ProductController {
     }
 
     @GetMapping("/stocks")
-    public List<GetProductStocksResponseDto> getAllProductsStock(@RequestParam(required = false) List<Long> ids) {
-        return getAllProductsStockUsecase.getAllProductsStocks(ids);
+    public List<GetProductStocksResponseDto> getAllProductsStock(
+            @RequestParam(name = "productId", required = false) List<UUID> productIds) {
+        return getAllProductsStockUsecase.getAllProductsStocks(productIds);
     }
 
 }
