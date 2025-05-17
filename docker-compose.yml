@@ -13,6 +13,13 @@ services:
     networks:
       - backend
 
+  adminer:
+    image: adminer
+    ports:
+      - "3080:8080"
+    networks:
+      - backend
+
 volumes:
   pgdata:
 
