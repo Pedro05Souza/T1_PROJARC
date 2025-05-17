@@ -11,13 +11,13 @@ import com.example.demo.Infraestructure.Models.Product;
 import com.example.demo.Infraestructure.Models.ProductRepositoryInterface;
 import com.example.demo.Infraestructure.Repositories.Mappers.ProductEntityMapper;
 
-
 @Repository
 public class ProductRepository {
     private final ProductRepositoryInterface productRepositoryInterface;
     private final ProductEntityMapper productEntityMapper;
-    
-    public ProductRepository(ProductRepositoryInterface productRepositoryInterface, ProductEntityMapper productEntityMapper){
+
+    public ProductRepository(ProductRepositoryInterface productRepositoryInterface,
+            ProductEntityMapper productEntityMapper) {
         this.productRepositoryInterface = productRepositoryInterface;
         this.productEntityMapper = productEntityMapper;
     }
@@ -31,12 +31,19 @@ public class ProductRepository {
     public List<ProductEntity> listProducts() {
         List<Product> productModels = this.productRepositoryInterface.findAll();
         return productModels.stream()
-        .map(productEntityMapper::toEntity)
-        .collect(Collectors.toList());
-}
+                .map(productEntityMapper::toEntity)
+                .collect(Collectors.toList());
+    }
 
-    public ProductEntity listProductById(UUID id){
+    public ProductEntity listProductById(UUID id) {
         Product product = this.productRepositoryInterface.getReferenceById(id);
         return productEntityMapper.toEntity(product);
+    }
+
+    public List<ProductEntity> listProductsByIds(List<UUID> ids) {
+        List<Product> products = this.productRepositoryInterface.findAllById(ids);
+        return products.stream()
+                .map(productEntityMapper::toEntity)
+                .collect(Collectors.toList());
     }
 }
