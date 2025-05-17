@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +14,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "quotations")
 public class Quotation {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -24,7 +22,7 @@ public class Quotation {
     private String customerName;
 
     @OneToMany(mappedBy = "quotation", orphanRemoval = true)
-    private List<Product> products;
+    private List<QuotedProduct> products;
 
     private Instant createdAt;
 
@@ -37,7 +35,7 @@ public class Quotation {
     protected Quotation() {
     }
 
-    public Quotation(String code, String customerName, List<Product> products, Instant createdAt, String country,
+    public Quotation(String code, String customerName, List<QuotedProduct> products, Instant createdAt, String country,
             String state, boolean isApproved) {
         this.code = code;
         this.customerName = customerName;
@@ -72,11 +70,11 @@ public class Quotation {
         this.customerName = customerName;
     }
 
-    public List<Product> getProducts() {
+    public List<QuotedProduct> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<QuotedProduct> products) {
         this.products = products;
     }
 

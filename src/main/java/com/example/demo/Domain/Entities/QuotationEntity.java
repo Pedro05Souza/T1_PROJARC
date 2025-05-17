@@ -8,14 +8,14 @@ public class QuotationEntity {
     private UUID id;
     private String code;
     private String customerName;
-    private List<ProductEntity> products;
+    private List<QuotedProductEntity> products;
     private Instant createdAt;
     private String country;
     private String state;
     private boolean isApproved;
-    
 
-    public QuotationEntity(UUID id, String code, String customerName, List<ProductEntity> products, Instant createdAt,
+    public QuotationEntity(UUID id, String code, String customerName, List<QuotedProductEntity> products,
+            Instant createdAt,
             String country, String state, boolean isApproved) {
         this.id = id;
         this.code = code;
@@ -27,7 +27,7 @@ public class QuotationEntity {
         this.isApproved = isApproved;
     }
 
-    public QuotationEntity(String code, String customerName, List<ProductEntity> products, Instant createdAt,
+    public QuotationEntity(String code, String customerName, List<QuotedProductEntity> products, Instant createdAt,
             String country, String state, boolean isApproved) {
         this.code = code;
         this.customerName = customerName;
@@ -62,11 +62,11 @@ public class QuotationEntity {
         this.customerName = customerName;
     }
 
-    public List<ProductEntity> getProducts() {
+    public List<QuotedProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductEntity> products) {
+    public void setProducts(List<QuotedProductEntity> products) {
         this.products = products;
     }
 
