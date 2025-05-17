@@ -18,6 +18,9 @@ public class Product {
     private Double price;
     private String SKU;
 
+    @ManyToOne
+    @JoinColumn(name = "quotation_id", referencedColumnName = "id")
+    private Quotation quotation;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Stock stock;
@@ -99,6 +102,14 @@ public class Product {
 
     public void setStock(Stock stock) {
         this.stock = stock;
+    }
+
+    public Quotation getQuotation() {
+        return quotation;
+    }
+
+    public void setQuotation(Quotation quotation) {
+        this.quotation = quotation;
     }
 
 }

@@ -33,6 +33,7 @@ public class Stock {
         this.product = product;
         this.maxQuantity = maxQuantity;
         this.minQuantity = minQuantity;
+        this.currentQuantity = currentQuantity;
     }
 
 

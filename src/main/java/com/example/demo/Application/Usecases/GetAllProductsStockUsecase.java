@@ -20,7 +20,7 @@ public class GetAllProductsStockUsecase {
 
     private List<GetProductStocksResponseDto> mapProductStockToDto(List<ProductStock> products) {
         return products.stream()
-                .map(product -> new GetProductStocksResponseDto(product.getProductId(), product.getCurrentQuantity(),
+                .map(product -> new GetProductStocksResponseDto(product.getProductId().toString(), product.getCurrentQuantity(),
                         product.getMaxQuantity(), product.getMinQuantity()))
                 .collect(Collectors.toList());
     }
