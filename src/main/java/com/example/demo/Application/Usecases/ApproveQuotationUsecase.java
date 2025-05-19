@@ -3,7 +3,9 @@ package com.example.demo.Application.Usecases;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.coyote.BadRequestException;
 import org.apache.coyote.BadRequestException;
@@ -18,6 +20,7 @@ import com.example.demo.Application.Services.QuotationPriceInfo;
 import com.example.demo.Application.Services.TaxStrategyService;
 import com.example.demo.Domain.Entities.ProductEntity;
 import com.example.demo.Domain.Entities.QuotationEntity;
+import com.example.demo.Domain.Entities.QuotedProductEntity;
 import com.example.demo.Infraestructure.Models.Product;
 import com.example.demo.Infraestructure.Models.QuotedProduct;
 import com.example.demo.Infraestructure.Repositories.PersistedResult;
@@ -51,28 +54,28 @@ public class ApproveQuotationUsecase {
 
     @Transactional
     public ApprovedQuotationDto approveQuotation(QuotationEntity quotation, TaxStrategyService taxStrategyService)
-        throws BadRequestException {
+            throws BadRequestException {
 
-    validateQuotation(quotation);
+        validateQuotation(quotation);
 
-    List<UUID> productIds = quotation.getProducts().stream()
+        List<UUID> productIds = quotation.getProducts().stream()
                 .map(product -> product.getProduct().getId())
                 .toList();
 
-    List<ProductStock> productsInStock = this.stocksRepository.getAllProductsStockByIds(productIds);
+        List<ProductStock> productsInStock = this.stocksRepository.getAllProductsStockByIds(productIds);
 
-    validateProductsInStock(productsInStock, productIds);
+        validateProductsInStock(productsInStock, productIds);
 
-    updateStockQuantities(productsInStock);
+        updateStockQuantities(productsInStock, quotation.getProducts());
 
-    approveQuotationAndPersistChanges(quotation, productsInStock);
+        approveQuotationAndPersistChanges(quotation, productsInStock);
 
-    Double totalPrice = calculateTotalPrice(quotation);
-    QuotationPriceInfo quotationPriceInfo = calculateQuotationPriceInfo(quotation, taxStrategyService, totalPrice);
-    Double discount = calculateDiscount(quotation);
-    Double finalPrice = calculateFinalPrice(quotationPriceInfo, discount);
+        Double totalPrice = calculateTotalPrice(quotation);
+        QuotationPriceInfo quotationPriceInfo = calculateQuotationPriceInfo(quotation, taxStrategyService, totalPrice);
+        Double discount = calculateDiscount(quotation);
+        Double finalPrice = calculateFinalPrice(quotationPriceInfo, discount);
 
-    return buildApprovedQuotationDto(quotation, totalPrice, quotationPriceInfo, discount, finalPrice);
+        return buildApprovedQuotationDto(quotation, totalPrice, quotationPriceInfo, discount, finalPrice);
     }
 
     private void validateQuotation(QuotationEntity quotation) throws BadRequestException {
@@ -97,10 +100,27 @@ public class ApproveQuotationUsecase {
         }
     }
 
-    private void updateStockQuantities(List<ProductStock> productsInStock) {
-        for (ProductStock product : productsInStock) {
-            product.setCurrentQuantity(0);
-        }
+    private void updateStockQuantities(List<ProductStock> productsInStock, List<QuotedProductEntity> quotedProduct)
+            throws BadRequestException {
+        Map<UUID, Integer> quantitiesToUpdate = quotedProduct.stream()
+                .collect(Collectors.toMap(
+                        product -> product.getProduct().getId(),
+                        QuotedProductEntity::getAmount));
+
+        for (ProductStock productStock : productsInStock) {
+            Integer quantityToUpdate = quantitiesToUpdate.get(productStock.getProductId());
+            if (quantityToUpdate != null) {
+                if (productStock.getCurrentQuantity() - quantityToUpdate < productStock.getMinQuantity()) {
+                    System.out.println(productStock.getCurrentQuantity() - quantityToUpdate);
+                    throw new BadRequestException("Insufficient stock for product: " + productStock.getProductId());
+                }
+    
+                productStock.setCurrentQuantity(productStock.getCurrentQuantity() - quantityToUpdate);
+
+            } else {
+                throw new BadRequestException("Product not found in stock");
+            }
+        }   
     }
 
     private void approveQuotationAndPersistChanges(QuotationEntity quotation, List<ProductStock> productsInStock) {
@@ -115,7 +135,8 @@ public class ApproveQuotationUsecase {
                 .sum();
     }
 
-    private QuotationPriceInfo calculateQuotationPriceInfo(QuotationEntity quotation, TaxStrategyService taxStrategyService,
+    private QuotationPriceInfo calculateQuotationPriceInfo(QuotationEntity quotation,
+            TaxStrategyService taxStrategyService,
             Double totalPrice) {
         return taxStrategyService.calculateTax(quotation, totalPrice);
     }
