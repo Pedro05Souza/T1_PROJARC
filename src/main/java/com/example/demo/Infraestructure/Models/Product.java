@@ -6,9 +6,13 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
+@Getter
+@Setter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,9 +22,6 @@ public class Product {
     private Double price;
     private String SKU;
 
-    @ManyToOne
-    @JoinColumn(name = "quotation_id", referencedColumnName = "id")
-    private Quotation quotation;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Stock stock;
@@ -46,70 +47,6 @@ public class Product {
         this.SKU = SKU;
         this.createdAt = createdAt;
         this.isActive = isActive;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getSKU() {
-        return SKU;
-    }
-
-    public void setSKU(String sKU) {
-        SKU = sKU;
-    }
-
-    public Boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Stock getStock() {
-        return stock;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
-    }
-
-    public Quotation getQuotation() {
-        return quotation;
-    }
-
-    public void setQuotation(Quotation quotation) {
-        this.quotation = quotation;
     }
 
 }

@@ -28,8 +28,13 @@ public class CreateProductUsecase {
 
     @Transactional
     public ProductDto createProduct(CreateProductDto createProductDto) {
-        ProductEntity productEntity = new ProductEntity(createProductDto.getDescription(), createProductDto.getPrice(),
-                createProductDto.getSku(), java.time.Instant.now(), true);
+        if (createProductDto.getCurrentQuantity() > createProductDto.getMaxQuantity()) {
+            throw new IllegalArgumentException("Current quantity cannot be greater than max quantity");
+        }
+
+        ProductEntity productEntity = new ProductEntity(createProductDto.getDescription(), createProductDto.getSku(),
+                createProductDto.getPrice(), java.time.Instant.now(), true);
+
         PersistedResult<Product, ProductEntity> result = this.productRepository.createProduct(
                 productEntity);
 
@@ -37,7 +42,7 @@ public class CreateProductUsecase {
         Product rawProduct = result.getModel();
 
         this.stocksRepository.createStock(rawProduct, createProductDto.getMinQuantity(),
-                createProductDto.getMaxQuantity());
+                createProductDto.getMaxQuantity(), createProductDto.getCurrentQuantity());
         return this.productAssembler.toDto(newProductEntity);
     }
 

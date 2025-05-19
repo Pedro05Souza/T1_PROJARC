@@ -1,11 +1,14 @@
 package com.example.demo.Application.Usecases;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 import java.security.SecureRandom;
 import java.time.Instant;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Application.Dtos.CreateQuotationDto;
@@ -13,12 +16,15 @@ import com.example.demo.Application.Dtos.QuotationDto;
 import com.example.demo.Application.Dtos.Assemblers.QuotationAssembler;
 import com.example.demo.Domain.Entities.ProductEntity;
 import com.example.demo.Domain.Entities.QuotationEntity;
+import com.example.demo.Domain.Entities.QuotedProductEntity;
+import com.example.demo.Infraestructure.Models.Product;
 import com.example.demo.Infraestructure.Repositories.ProductRepository;
 import com.example.demo.Infraestructure.Repositories.QuotationRepository;
 import com.example.demo.Domain.Enums.StateEnum;
 
 @Service
 public class CreateQuotationUsecase {
+
     private final QuotationRepository quotationRepository;
     private final ProductRepository productRepository;
     private final QuotationAssembler quotationAssembler;
@@ -34,17 +40,25 @@ public class CreateQuotationUsecase {
     }
 
     public QuotationDto createQuotation(CreateQuotationDto createQuotationDto) throws BadRequestException {
-        List<ProductEntity> products = this.productRepository.listProductsByIds(createQuotationDto.getProductIds());
+        List<UUID> productIds = createQuotationDto.getQuotedProducts().stream()
+                .map(product -> product.getProductId())
+                .toList();
+
+        List<ProductEntity> products = this.productRepository.listProductsByIds(productIds);
+
+        Map<UUID, ProductEntity> productsMap = new HashMap<>();
+
+        for (ProductEntity p : products) {
+            productsMap.put(p.getId(), p);
+        }
 
         if (products.isEmpty()) {
             throw new BadRequestException("No products found");
         }
 
-        if (products.size() != createQuotationDto.getProductIds().size()) {
+        if (products.size() != productIds.size()) {
             throw new BadRequestException("Some products not found");
         }
-
-        System.out.println(createQuotationDto.getCountry());
 
         if (!(createQuotationDto.getCountry().equals("Brazil"))) {
             throw new BadRequestException("Country not supported");
@@ -58,7 +72,14 @@ public class CreateQuotationUsecase {
 
         Instant createdAt = Instant.now();
 
-        QuotationEntity quotationEntity = new QuotationEntity(quotationCode, createQuotationDto.getCustomerName(), products,
+        List<QuotedProductEntity> quotedProducts = createQuotationDto.getQuotedProducts().stream()
+                .map(q -> new QuotedProductEntity(
+                        productsMap.get(q.getProductId()),
+                        q.getAmount()))
+                .toList();
+
+        QuotationEntity quotationEntity = new QuotationEntity(quotationCode, createQuotationDto.getCustomerName(),
+                quotedProducts,
                 createdAt, createQuotationDto.getCountry(), createQuotationDto.getState(),
                 false);
 
@@ -66,7 +87,7 @@ public class CreateQuotationUsecase {
 
         return this.quotationAssembler.toDto(savedQuotation);
     }
-    
+
     private String generateQuotationCode() {
         String prefix = "#";
 
@@ -94,5 +115,4 @@ public class CreateQuotationUsecase {
         return false;
     }
 
-    
 }

@@ -17,9 +17,12 @@ public class QuotedProduct {
 
     private Integer amount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quotation_id", referencedColumnName = "id")
     private Quotation quotation;
+
+    protected QuotedProduct() {
+    }
 
     public QuotedProduct(Product product, Integer amount, Quotation quotation) {
         this.product = product;
@@ -41,5 +44,21 @@ public class QuotedProduct {
 
     public Quotation getQuotation() {
         return quotation;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public void setQuotation(Quotation quotation) {
+        this.quotation = quotation;
     }
 }

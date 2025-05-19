@@ -8,11 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "stocks")
+@Getter
+@Setter
 public class Stock {
-    
+
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
     private UUID id;
@@ -28,7 +32,6 @@ public class Stock {
     protected Stock() {
     }
 
-
     public Stock(Product product, Integer maxQuantity, Integer minQuantity, Integer currentQuantity) {
         this.product = product;
         this.maxQuantity = maxQuantity;
@@ -36,49 +39,4 @@ public class Stock {
         this.currentQuantity = currentQuantity;
     }
 
-
-    public UUID getId() {
-        return id;
-    }
-
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-
-    public Product getProduct() {
-        return product;
-    }
-
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-
-    public Integer getMaxQuantity() {
-        return maxQuantity;
-    }
-
-
-    public void setMaxQuantity(Integer maxQuantity) {
-        this.maxQuantity = maxQuantity;
-    }
-
-
-    public Integer getMinQuantity() {
-        return minQuantity;
-    }
-
-
-    public void setMinQuantity(Integer minQuantity) {
-        this.minQuantity = minQuantity;
-    }
-
-    public Integer getCurrentQuantity() {
-        return currentQuantity;
-    }
-
-    
 }
