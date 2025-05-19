@@ -32,6 +32,15 @@ public class CreateProductUsecase {
             throw new IllegalArgumentException("Current quantity cannot be greater than max quantity");
         }
 
+        if (createProductDto.getMinQuantity() > createProductDto.getMaxQuantity()) {
+            throw new IllegalArgumentException("Min quantity cannot be greater than max quantity");
+        }
+
+        if (createProductDto.getMinQuantity() > createProductDto.getCurrentQuantity()) {
+            throw new IllegalArgumentException("Min quantity cannot be greater than current quantity");
+        }
+
+
         ProductEntity productEntity = new ProductEntity(createProductDto.getDescription(), createProductDto.getSku(),
                 createProductDto.getPrice(), java.time.Instant.now(), true);
 
