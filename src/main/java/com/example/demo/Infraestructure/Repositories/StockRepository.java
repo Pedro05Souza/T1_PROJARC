@@ -24,7 +24,7 @@ public class StockRepository {
         }
 
         public void createStock(Product product, int minQuantity, int maxQuantity, int currentQuantity) {
-                Stock stock = new Stock(product, minQuantity, maxQuantity, currentQuantity);
+                Stock stock = new Stock(product, maxQuantity, minQuantity, currentQuantity);
                 this.stockRepositoryInterface.save(stock);
         }
 
