@@ -99,7 +99,7 @@ public class ApproveQuotationUsecase {
 
     private void updateStockQuantities(List<ProductStock> productsInStock) {
         for (ProductStock product : productsInStock) {
-            product.setCurrentQuantity(product.getCurrentQuantity() - 1);
+            product.setCurrentQuantity(0);
         }
     }
 
