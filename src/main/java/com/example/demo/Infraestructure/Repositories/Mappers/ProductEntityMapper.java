@@ -11,10 +11,10 @@ public class ProductEntityMapper {
         return new ProductEntity(
             productDomainObj.getId(),
             productDomainObj.getDescription(),
-            productDomainObj.getPrice(),
             productDomainObj.getSKU(),
+            productDomainObj.getPrice(),
             productDomainObj.getCreatedAt(),
-            productDomainObj.isActive()
+            productDomainObj.getIsActive()
         );
     }
 
@@ -25,7 +25,7 @@ public class ProductEntityMapper {
             productEntity.getPrice(),
             productEntity.getSKU(),
             productEntity.getCreatedAt(),
-            productEntity.isActive()
+            productEntity.getIsActive()
         );
     }
 }

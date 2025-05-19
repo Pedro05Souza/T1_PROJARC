@@ -12,10 +12,10 @@ public class ProductAssembler {
         return new ProductDto(
                 product.getId(),
                 product.getDescription(),
-                product.getPrice(),
                 product.getSKU(),
+                product.getPrice(),
                 product.getCreatedAt(),
-                product.isActive()
+                product.getIsActive()
         );
     }
     

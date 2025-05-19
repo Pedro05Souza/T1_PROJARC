@@ -1,7 +1,10 @@
 package com.example.demo.Application.Dtos;
 
 import jakarta.validation.constraints.*;
+import lombok.Getter;
 
+
+@Getter
 public class CreateProductDto {
 
     @NotBlank(message = "Description is required")
@@ -23,43 +26,7 @@ public class CreateProductDto {
     @Min(value = 0, message = "Min quantity must be >= 0")
     private Integer minQuantity;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSKU(String sku) {
-        this.sku = sku;
-    }
-
-    public Integer getMaxQuantity() {
-        return maxQuantity;
-    }
-
-    public void setMaxQuantity(Integer maxQuantity) {
-        this.maxQuantity = maxQuantity;
-    }
-
-    public Integer getMinQuantity() {
-        return minQuantity;
-    }
-
-    public void setMinQuantity(Integer minQuantity) {
-        this.minQuantity = minQuantity;
-    }
+    @NotNull(message = "Current Quantity is required")
+    @Min(value = 0, message = "Current Quantity must be >= 0")
+    private Integer currentQuantity;
 }

@@ -4,24 +4,29 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "quotations")
+@Getter
+@Setter
 public class Quotation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
+    
     private String code;
     private String customerName;
 
-    @OneToMany(mappedBy = "quotation", orphanRemoval = true)
+    @OneToMany(mappedBy = "quotation", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<QuotedProduct> products;
 
     private Instant createdAt;
@@ -43,70 +48,6 @@ public class Quotation {
         this.createdAt = createdAt;
         this.country = country;
         this.state = state;
-        this.isApproved = isApproved;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public List<QuotedProduct> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<QuotedProduct> products) {
-        this.products = products;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public boolean isApproved() {
-        return isApproved;
-    }
-
-    public void setApproved(boolean isApproved) {
         this.isApproved = isApproved;
     }
 

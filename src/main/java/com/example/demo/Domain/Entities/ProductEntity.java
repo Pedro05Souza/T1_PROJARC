@@ -1,8 +1,12 @@
 package com.example.demo.Domain.Entities;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductEntity {
     private UUID id;
     private String description;
@@ -11,50 +15,12 @@ public class ProductEntity {
     private Instant createdAt;
     private Boolean isActive;
 
-    public ProductEntity(String description, Double price, String SKU){
+    public ProductEntity(String description, String SKU, Double price,
+            Instant createdAt, Boolean isActive) {
         this.description = description;
-        this.price = price;
         this.SKU = SKU;
-    }
-
-    public ProductEntity(String description, Double price, String SKU, Instant createdAt, Boolean isActive){
-        this.description = description;
         this.price = price;
-        this.SKU = SKU;
         this.createdAt = createdAt;
         this.isActive = isActive;
-    }
-
-    public ProductEntity(UUID id, String description, Double price, String SKU, Instant createdAt, Boolean isActive) {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-        this.SKU = SKU;
-        this.createdAt = createdAt;
-        this.isActive = isActive;
-    }
-
-    public String getSKU() {
-        return SKU;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Boolean isActive() {
-        return isActive;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Double getPrice() {
-        return price;
     }
 }
