@@ -1,6 +1,5 @@
 package com.example.demo.Infraestructure.Repositories;
 
-import java.util.List;
 
 /**
  * This class is used to encapsulate the result of a persisted entity and its

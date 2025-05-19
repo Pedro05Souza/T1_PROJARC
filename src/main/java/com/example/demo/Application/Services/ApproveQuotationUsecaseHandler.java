@@ -8,7 +8,6 @@ import com.example.demo.Application.Dtos.ApprovedQuotationDto;
 import com.example.demo.Application.Usecases.ApproveQuotationUsecase;
 import com.example.demo.Domain.Entities.QuotationEntity;
 import com.example.demo.Domain.Enums.StateEnum;
-import com.example.demo.Infraestructure.Models.Quotation;
 import com.example.demo.Infraestructure.Repositories.QuotationRepository;
 
 @Component

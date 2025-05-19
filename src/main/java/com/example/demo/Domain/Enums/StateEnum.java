@@ -1,6 +1,5 @@
 package com.example.demo.Domain.Enums;
 
-import org.springframework.stereotype.Component;
 
 public enum StateEnum {
     RIO_GRANDE_DO_SUL("Rio Grande do Sul"),

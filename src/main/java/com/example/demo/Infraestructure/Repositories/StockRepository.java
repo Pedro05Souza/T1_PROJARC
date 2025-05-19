@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Domain.Entities.ProductEntity;
-import com.example.demo.Domain.Entities.QuotedProductEntity;
 import com.example.demo.Infraestructure.Models.Product;
 import com.example.demo.Infraestructure.Models.Stock;
 import com.example.demo.Infraestructure.Models.StockRepositoryInterface;
@@ -15,12 +13,10 @@ import com.example.demo.Infraestructure.Repositories.Mappers.ProductEntityMapper
 @Repository
 public class StockRepository {
         private final StockRepositoryInterface stockRepositoryInterface;
-        private final ProductEntityMapper productEntityMapper;
 
         public StockRepository(StockRepositoryInterface stockRepositoryInterface,
                         ProductEntityMapper productEntityMapper) {
                 this.stockRepositoryInterface = stockRepositoryInterface;
-                this.productEntityMapper = productEntityMapper;
         }
 
         public void createStock(Product product, int minQuantity, int maxQuantity, int currentQuantity) {

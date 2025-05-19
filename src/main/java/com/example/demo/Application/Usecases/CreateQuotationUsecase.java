@@ -8,7 +8,6 @@ import java.security.SecureRandom;
 import java.time.Instant;
 
 import org.apache.coyote.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Application.Dtos.CreateQuotationDto;
@@ -17,7 +16,6 @@ import com.example.demo.Application.Dtos.Assemblers.QuotationAssembler;
 import com.example.demo.Domain.Entities.ProductEntity;
 import com.example.demo.Domain.Entities.QuotationEntity;
 import com.example.demo.Domain.Entities.QuotedProductEntity;
-import com.example.demo.Infraestructure.Models.Product;
 import com.example.demo.Infraestructure.Repositories.ProductRepository;
 import com.example.demo.Infraestructure.Repositories.QuotationRepository;
 import com.example.demo.Domain.Enums.StateEnum;

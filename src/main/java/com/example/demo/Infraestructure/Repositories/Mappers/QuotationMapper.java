@@ -7,10 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.Domain.Entities.QuotedProductEntity;
 import com.example.demo.Domain.Entities.QuotationEntity;
-import com.example.demo.Domain.Entities.ProductEntity;
 import com.example.demo.Infraestructure.Models.Quotation;
 import com.example.demo.Infraestructure.Models.QuotedProduct;
-import com.example.demo.Infraestructure.Models.Product;
 
 @Component
 public class QuotationMapper {

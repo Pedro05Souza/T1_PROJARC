@@ -8,23 +8,16 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.coyote.BadRequestException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Application.Dtos.ApproveQuotationDto;
 import com.example.demo.Application.Dtos.ApprovedQuotationDto;
 import com.example.demo.Application.Dtos.QuotationDto;
 import com.example.demo.Application.Dtos.Assemblers.QuotationAssembler;
 import com.example.demo.Application.Services.QuotationDiscountService;
 import com.example.demo.Application.Services.QuotationPriceInfo;
 import com.example.demo.Application.Services.TaxStrategyService;
-import com.example.demo.Domain.Entities.ProductEntity;
 import com.example.demo.Domain.Entities.QuotationEntity;
 import com.example.demo.Domain.Entities.QuotedProductEntity;
-import com.example.demo.Infraestructure.Models.Product;
-import com.example.demo.Infraestructure.Models.QuotedProduct;
-import com.example.demo.Infraestructure.Repositories.PersistedResult;
-import com.example.demo.Infraestructure.Repositories.ProductRepository;
 import com.example.demo.Infraestructure.Repositories.ProductStock;
 import com.example.demo.Infraestructure.Repositories.QuotationRepository;
 import com.example.demo.Infraestructure.Repositories.StockRepository;
@@ -37,18 +30,15 @@ public class ApproveQuotationUsecase {
     private final QuotationRepository quotationRepository;
     private final StockRepository stocksRepository;
     private final QuotationAssembler quotationAssembler;
-    private final ProductRepository productRepository;
     private final QuotationDiscountService quotationDiscountService;
 
     public ApproveQuotationUsecase(QuotationRepository quotationRepository,
             QuotationAssembler quotationAssembler,
             StockRepository stocksRepository,
-            ProductRepository productRepository,
             QuotationDiscountService quotationDiscountService) {
         this.quotationRepository = quotationRepository;
         this.quotationAssembler = quotationAssembler;
         this.stocksRepository = stocksRepository;
-        this.productRepository = productRepository;
         this.quotationDiscountService = quotationDiscountService;
     }
 
